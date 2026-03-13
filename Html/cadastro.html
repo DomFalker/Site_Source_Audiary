@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+    <html lang="pt-br">
+        <head>
+            <meta charset="UTF-8">
+            <title>AubeyMusician.cadastro</title>
+            <link rel="styles" href="styles/style01.css">
+        </head>
+        <body>
+            <div class = "main-page">
+            <h1 class="Texto-Bem-vindo">Bem-Vindo</h1>
+                <h2 class="Texto-CADASTRO">CADASTRO</h2>
+                <form action="data_bank_dos_dados/pagina_dos_dados" method="post">
+                    <label for="IDnome">Seu Nome completo:</label>
+                    <br>
+                    <input placeholder="Joãozino altinho" type="text" id="IDnome" name="nome">
+                    <br>
+                    <label class ="obrigatorio" for="IDusuario">DIGITE O NOME DE USUARIO *:</label>
+                    <br>
+                    <input placeholder="joazinho123" type="text" id="IDusuario" name="usuario" required>
+                    <br>
+                    <label for="IDemail">Digite seu Email *:</label>
+                    <br>
+                    <input placeholder="joao@email.com" type="email" id="IDemail" name="email" required>
+                    <br>
+                    <label for="IDsenha">DIGITE SUA SENHA *:</label>
+                    <br>
+                    <input placeholder="12345" type="password" id="IDsenha" name="senha" required minlength="5" maxlength="10">
+                    <br>
+                    <label for="IDSecond-senha">DIGITE NOVAMENTE SUA SENHA *:</label>
+                    <br>
+                    <input placeholder="12345" type="password" id="IDSecond-senha" name="Second-senha" required minlength="5" maxlength="10">
+                    <br>
+                    <button type="submit">Cadastrar</button>
+                </form>
+            </div>
+        </body>
+    </html>

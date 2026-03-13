@@ -1,0 +1,8 @@
+body {
+    background-color: yellow !important;
+}
+
+.obrigatorio {
+    color: red;
+    font-weight: bold;
+}
