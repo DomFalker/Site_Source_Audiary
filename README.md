@@ -3,4 +3,4 @@ Grupo:
 - Julius Wanderley
 - Antônio Pedro Lessa
 - Flávio José
-- Arthur Abreu Soares
+- Arthur Soares Abreu
