@@ -1,0 +1,57 @@
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color:white;
+}
+
+.Nav-Bar-Login{
+    background-color:#a8d8ff;
+    padding:15px 30px;
+    text-align: left;
+}
+
+.link-cadastro{
+    text-align: right;
+    margin:0;
+}
+
+.pagina-login{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:80vh;
+}
+
+.login-container{
+    width:300px;
+}
+
+.Texto_login{
+    text-align:center;
+}
+
+.campo{
+    display:flex;
+    flex-direction:column;
+    margin-bottom:15px;
+}
+
+input{
+    padding:8px;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    border:none;
+    background-color:#4fa3e3;
+    color:white;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#2f8cd6;
+}
