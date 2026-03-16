@@ -1,38 +1,69 @@
 <!DOCTYPE html>
-    <html lang= "pt-br">
+    
+<html lang= "pt-br">
 
         <head>
+        
             <meta charset="UTF-8">
+        
             <title>Audiary.Login</title>
+        
             <link rel="stylesheet" href="../styles/style02.css">
+        
         </head>
 
-            <div class="Nav-Bar">
-                <h1 class="logo-text-login">Audiary</h1>
-                <nav>
-                    <a class="Link-Cadastro" href=cadastro.html>Não possui uma conta? Cadastrar</a>
-                </nav>
-            </div>
         
         <body>
+            
+            <div class="Nav-Bar">
+            
+                <h1 class="logo-login">Audiary</h1>
+            
+                <nav>
+            
+                    <a href=cadastro.html><button class="botao-Cadastro">Cadastrar</button></a>
+            
+                </nav>
+            
+            </div>
+
             <main class="pagina-login">     
-                <div class="">
-                <h1 class="Texto_login">Entrar</h1>
-                    <form action="" method="post">
+                
+                <div class="main-login">
+                    
+                    <h1 class="texto-volta">Bem Vindo de Volta</h1>
+                    
+                    <h2 class="Texto-login">Login</h2>
+                    
+                    <form action="../data_bank_exemple/pagina_dos_dados" method="post">
+                       
+                        <div class="input-login">
+                            
+                            <div class="Login-User-Input">
+                                <label for="IDusuario">Nome de usuário:</label>
+                                <input placeholder="Nome do Usúario" type="text" id="IDusuario" name="usuario" required>
+                            </div>
 
-                        <div class="Login-User-Input">
-                        <label for="IDusuario">Nome de usuário:</label>
-                        <input type="text" id="IDusuario" name="usuario" required>
+                            <div class="Login-Senha-Input">
+                                <label for="IDsenha">Senha:</label>
+                                <input  placeholder="senha" type="password" id="IDsenha" name="senha" required>
+                               
+                                <div class="botao-esquecido">
+                                    <a href="esqueceu.html" class="esquecido">Esqueçeu a senha?</a>
+                                </div>
+                            
+                            </div>
+                       
                         </div>
-
-                        <div class="Login-Senha-Input">
-                        <label for="IDsenha">Senha:</label>
-                        <input type="password" id="IDsenha" name="senha" required>
-                        </div>
-
-                        <button type="submit">Entrar</button>
+                        
+                            <button class="botao-entrar" type="submit">Entrar</button>
+                    
                     </form>
+                
                 </div>
+            
             </main>
+        
         </body>
+    
     </html>
