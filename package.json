@@ -1,0 +1,24 @@
+{
+  "name": "site-de-musica",
+  "version": "1.0.0",
+  "description": "Grupo: - Daniel de Jesus - Julius Wanderley - Antônio Pedro Lessa - Flávio José - Arthur Soares Abreu",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DomFalker/Site_Source_Audiary.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DomFalker/Site_Source_Audiary/issues"
+  },
+  "homepage": "https://github.com/DomFalker/Site_Source_Audiary#readme",
+  "dependencies": {
+    "ejs": "^5.0.1",
+    "express": "^5.2.1"
+  }
+}
