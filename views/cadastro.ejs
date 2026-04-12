@@ -3,7 +3,7 @@
         <head>
             <meta charset="UTF-8">
             <title>AubeyMusician.cadastro</title>
-            <link rel="stylesheet" href="../styles/style01.css">
+            <link rel="stylesheet" href="../public/style01.css">
         </head>
     
         <body>
@@ -11,7 +11,7 @@
                 <div class="Nav-Bar">
                     <h1 class="logo-text">Audiary</h1>
                 
-                        <a href="Login.html"><button class="Botao-login">Login</button></a>
+                        <a href="/login"><button class="Botao-login">Login</button></a>
                 
                 </div>
             </nav>
@@ -20,7 +20,7 @@
             <h2 class="Texto-Bem-vindo">Bem-Vindo</h2>
                 <h3 class="Texto-CADASTRO">CADASTRO</h3>
                 
-                    <form action="data_bank_dos_dados/pagina_dos_dados" method="post">
+                    <form action="/auth/cadastro" method="POST">
                         <div class="central-inputs">
                             <div class="Nome-Input">
                                 <label for="IDnome">Digite seu nome completo:</label>
@@ -37,6 +37,11 @@
                                 <input placeholder="joao@email.com" type="email" id="IDemail" name="email" required>
                             </div>
 
+                            <div class="CEP-input">
+                                <label for="IDcep">CEP <span class="obrigatorio">*</span>:</label>
+                                <input placeholder="00000-000" type="text" id="IDcep" name="cep" required maxlenght="9">
+                            </div>
+
                             <div class="Senha-Input">
                                 <label for="IDsenha">Digite sua Senha <span class="obrigatorio">*</span>:</label>
                                 <input placeholder="12345" type="password" id="IDsenha" name="senha" required minlength="5" maxlength="10">
@@ -48,13 +53,16 @@
                             </div>
 
                             <button class="Botao-Enviar" type="submit">Cadastrar</button>
-                                <br>
-                            <a href="Termo_dados_cookies">Termo de uso de dados e cookies</a>
+                            
+                            <div class="link-auxiliares">
+                                    <br>
+                                <a href="/termos">Termo de uso de dados e cookies</a>
+                            </div>
                         </div>
                     </form>
             </div>
             <footer>
-                
+                <p>Copyrights: 2026 Audiary - Todos os direitos reservadors.</p>
             </footer>
         </body>
     </html>

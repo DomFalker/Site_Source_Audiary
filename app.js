@@ -11,12 +11,11 @@ app.use(express.urlencoded({ extended: true }));
 // ---- ROTAS DE LOGIN ----
 
 app.get('/login', (req, res) => {
-    res.render('login'); // Certifique-se que o arquivo é login.ejs
+    res.render('login'); 
 });
 
 app.post('/auth/login', (req, res) => {
     const { usuario, senha } = req.body;
-    // Use crases (backticks) para usar o ${}
     console.log(`Tentativa de login: ${usuario}`);
     res.send(`DADOS RECEBIDOS DE ${usuario}, AGORA O BACKEND IRÁ AVALIÁ-LOS.`);
 });
@@ -25,7 +24,7 @@ app.post('/auth/login', (req, res) => {
 // ---- ROTAS DE CADASTRO ----
 
 app.get('/cadastro', (req, res) => {
-    res.render('cadastro'); // Certifique-se que o arquivo é cadastro.ejs
+    res.render('cadastro'); 
 });
 
 app.post('/auth/cadastro', (req, res) => {
@@ -35,9 +34,8 @@ app.post('/auth/cadastro', (req, res) => {
 });
 
 
-// ---- LIGA O SERVIDOR (Sempre por último) ----
+// ---- LIGA O SERVIDOR ----
 
 app.listen(3000, () => {
-    // Nota: O link correto para testar é http (sem o S)
     console.log("Servidor ATIVADO EM: http://localhost:3000/login");
 });
