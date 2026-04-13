@@ -33,8 +33,9 @@ app.get('/cadastro', (req, res) => {
 });
 
 app.post('/auth/cadastro', (req, res) => {
-    const { nome, usuario, email, cep, senha } = req.body;
+    const { nome, usuario, email, cep, rua, senha } = req.body;
     console.log(`CADASTRO FEITO: ${usuario}`);
+    console.log('NO ENDEREÇO ${rua}');
     res.send("CADASTRO BEM SUCEDIDO");
 });
 
@@ -51,6 +52,11 @@ app.post('/auth/recuperar-senha', (req, res) => {
     res.send('Um link de recuperação já foi enviado para ${email} esquecidinho!');
 });
 
+// ---- ROTA DA VITRINE ----
+
+app.get('/produtos', (req, res) => {
+    res.render('produtos');
+});
 
 // ---- LIGA O SERVIDOR ----
 
