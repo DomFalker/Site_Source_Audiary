@@ -8,6 +8,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 
+//---- ROTA HOME ----
+app.get('/', (req, res) => {
+    res.render('index');
+});
+
 // ---- ROTAS DE LOGIN ----
 
 app.get('/login', (req, res) => {
@@ -31,6 +36,19 @@ app.post('/auth/cadastro', (req, res) => {
     const { nome, usuario, email, cep, senha } = req.body;
     console.log(`CADASTRO FEITO: ${usuario}`);
     res.send("CADASTRO BEM SUCEDIDO");
+});
+
+// ---- ROTA PARA RECUPERAR SENHA PERDIDA ----
+app.get('/senha-esquecida', (req, res) => {
+    res.render('senha-esquecida');
+});
+
+app.post('/auth/recuperar-senha', (req, res) => {
+    const{ email } = req.body;
+    res.send(`Um link de recuperação foi enviado para ${email}`);
+
+    //Resposta esperar para o backend hihiihihihi
+    res.send('Um link de recuperação já foi enviado para ${email} esquecidinho!');
 });
 
 

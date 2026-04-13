@@ -2,67 +2,100 @@
     <html lang="pt-br">
         <head>
             <meta charset="UTF-8">
-            <title>AubeyMusician.cadastro</title>
-            <link rel="stylesheet" href="../public/style01.css">
+            <title>AubeyMusician - Criar Conta</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <script src="https://cdn.tailwindcss.com"></script>
+            <link rel="stylesheet" href="https://cloudflare.com">
         </head>
-    
-        <body>
-            <nav>
-                <div class="Nav-Bar">
-                    <h1 class="logo-text">Audiary</h1>
-                
-                        <a href="/login"><button class="Botao-login">Login</button></a>
-                
-                </div>
-            </nav>
-
-            <div class = "main-page">
-            <h2 class="Texto-Bem-vindo">Bem-Vindo</h2>
-                <h3 class="Texto-CADASTRO">CADASTRO</h3>
-                
-                    <form action="/auth/cadastro" method="POST">
-                        <div class="central-inputs">
-                            <div class="Nome-Input">
-                                <label for="IDnome">Digite seu nome completo:</label>
-                                <input placeholder="Joãozino altinho" type="text" id="IDnome" name="nome">
-                            </div>
-
-                            <div class="User-Input">
-                                <label for="IDusuario">Digite seu nome de usuario <span class="obrigatorio">*</span>:</label>
-                                <input placeholder="joazinho123" type="text" id="IDusuario" name="usuario" required>
-                            </div>
-
-                            <div class="Email-Input">
-                                <label for="IDemail">Digite seu Email <span class="obrigatorio">*</span>:</label>
-                                <input placeholder="joao@email.com" type="email" id="IDemail" name="email" required>
-                            </div>
-
-                            <div class="CEP-input">
-                                <label for="IDcep">CEP <span class="obrigatorio">*</span>:</label>
-                                <input placeholder="00000-000" type="text" id="IDcep" name="cep" required maxlenght="9">
-                            </div>
-
-                            <div class="Senha-Input">
-                                <label for="IDsenha">Digite sua Senha <span class="obrigatorio">*</span>:</label>
-                                <input placeholder="12345" type="password" id="IDsenha" name="senha" required minlength="5" maxlength="10">
-                            </div>
-
-                            <div class="Second-senha-input">
-                                <label for="IDSecond-senha">Repita a sua senha <span class="obrigatorio">*</span>:</label>
-                                <input placeholder="12345" type="password" id="IDSecond-senha" name="Second-senha" required minlength="5" maxlength="10">
-                            </div>
-
-                            <button class="Botao-Enviar" type="submit">Cadastrar</button>
-                            
-                            <div class="link-auxiliares">
-                                    <br>
-                                <a href="/termos">Termo de uso de dados e cookies</a>
+        <bod class="bg-gray-50 font-sans min-h-screen flex flex-col">
+            <header class="bg-white shadown-sm py-4 px-8 flex justify-between items-center">
+                <a href="/" class="flex items-center gap-2 hover:opacity-80 transition">
+                    <div class="bg-cyan-500 text-white p-2 rounded-lg font-bold text-sm">A</div>
+                    <h1 class="text-xl font-bold">Audiary</h1>
+                </a>
+                <nav class="flex items-center gap-4 text-sm">
+                    <i class="fa-regular fa-user text-gray-500"></i>
+                    <a href="/login" class="font-medium hover:text-cyan-500">Entrar</a>
+                </nav>
+            </header>
+            <main class="flex-grow flex items-center justify-center p-4 my-10">
+                <div class="bg-white p-10 rounded-2xl shadow-sm border border-gray-100 w-full max-w-md">
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center gap-2 mb-4">
+                            <div class="bg-cyan-500 text-white p-1.5 rounded text-xs font-bold">A</div>
+                            <span class="text-xl font-bold">Audiary</span>
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-800">Criar Conta</h1>
+                        <p class="text-gray-400 text-sm mt-1">Junte-se à "futura" maior comunidade musical do Mundo! do Brasil também!</p>
+                    </div>
+                    
+                    <div class="flex border border-gray-200 rounded-lg overflow-hidden mb-6">
+                        <button class="flex-1 py-2 bg-cyan-400 text-white font-bold text-sm">Comprador</button>
+                        <button class="flex-1 py-2 bg-white text-gray-500 font-medium text-sm hover:bg-gray-50">Vendedor</button>
+                    </div>
+                    <form action="/auth/cadastro" method="POST" class="space-y-4">
+                        
+                        <!--NOME DO LINDOOOO-->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo:</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                    <i class="fa-regular fa-user"></i>
+                                </span>
+                                <input type="text" name="nome" placeholder="João Altinho" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
                             </div>
                         </div>
+                        
+                        <!-- local do Email bb -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">E-mail:</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex-center text-gray-400">
+                                    <i class="fa-regular fa-envelope"></i>
+                                </span>
+                                <input type="email" name="email" required placeholder="joão@email.com" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                            </div>
+                        </div>
+
+                        <!--SENHA AQUI-->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Senha:</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                    <i class="fa-solid fa-lock"></i>
+                                </span>
+                                <input type="password" name="senha" required placeholder="**********" class="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                            </div>
+                        </div>
+
+                        <!--Confirmar Senha-->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Confirme sua Senha!</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                                    <i class="fa-solid fa-look"></i>
+                                </span>
+                                <input type="password" name="segunda-senha" required placeholder="**********" class="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                            </div>
+                        </div>
+                        <!--ROUBO DE INDENTIDADE AUTORIZADO HEHEHEH-->
+                        <div class="flex items-center gap-2 py-2">
+                            <input type="checkbox" required class="h-4 w-4 text-cyan-600 border-gray-300 rounded">
+                            <p class="test-[10] text-gray-600">
+                                Concordo com os <a href="#" class="text-blue-600 underline">Termos de vendas da minha privacidade</a>
+                            </p>
+                        </div>
+                        <button type="submit" class="w-full bg-cyan-400 hover:bgcyan-500 text-white font-bol py-2.5 rounded-md shadow-sm transitionduration-150">
+                            Criar conta
+                        </button>
+                        <p class="text-center text-xs text-gray-500 mt-4">
+                            Já tem uma conta? <a href="/login" class="text-blue-600 font-bold hover:underline">Entrar</a>
+                        </p>
                     </form>
-            </div>
-            <footer>
-                <p>Copyrights: 2026 Audiary - Todos os direitos reservadors.</p>
+                </div>
+            </main>
+            <footer class="py-6 text-center border-t border-gray-200">
+                <p class="text-gray-400 text-[10px]">Copyrights: 2026 Audiary -  Todos os direitos reservados para os fundadores.</p>
             </footer>
         </body>
     </html>
