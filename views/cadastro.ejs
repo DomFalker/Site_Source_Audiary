@@ -36,7 +36,7 @@
                     <form action="/auth/cadastro" method="POST" class="space-y-4">
                         
                         <!--NOME DO LINDOOOO-->
-                        <div>
+                        <div class="Nome-Input">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo:</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
@@ -47,7 +47,7 @@
                         </div>
                         
                         <!-- local do Email bb -->
-                        <div>
+                        <div class="Email-Input">
                             <label class="block text-sm font-medium text-gray-700 mb-1">E-mail:</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex-center text-gray-400">
@@ -57,8 +57,31 @@
                             </div>
                         </div>
 
+                        <!--CEPPPPP-->
+                        <div class="CEP-Input">
+                            <label for="IDcep" class="block text-sm font-medium text-gray-700 mb-1">Cep*:</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex-center text-gray-400">
+                                    <i class="fa-solid fa-map-pin"></i>
+                                </span>
+                                <input placeholder="00000-000" type="text" id="IDcep" name="cep" required maxlength="9"
+                                    onblur="buscaCEP()"
+                                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                                <div class="Rua-input mt-4">
+                                    <label for="IDrua" class="block text-sm font-medium text-gray-700 mb-1">Rua/Logradouro</label> 
+                                    <input type="text" id="IDrua" name="rua" readonly placeholder="Preenchido automaticamente"
+                                    class="block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md sm:text-sm text-gray-500">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
                         <!--SENHA AQUI-->
-                        <div>
+                        <div class="Senha-Input">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Senha:</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
@@ -69,7 +92,7 @@
                         </div>
 
                         <!--Confirmar Senha-->
-                        <div>
+                        <div class="Senha-II-Input">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Confirme sua Senha!</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
@@ -97,5 +120,28 @@
             <footer class="py-6 text-center border-t border-gray-200">
                 <p class="text-gray-400 text-[10px]">Copyrights: 2026 Audiary -  Todos os direitos reservados para os fundadores.</p>
             </footer>
+            <script>
+                function buscarCEP(){
+                    let cep = document.getElementById('IDcep').value.replace(/\D/g,'');
+                        if(cep !== ""){
+                            let validacep = /^[0-9]{8}$/;
+
+                            if(validacep.test(cep)){
+                                document.getElementById('IDrua').value = "...";
+
+                                fetch(`https://viacep.com.br{cep}/json/`)
+                                    .then(response => response.json())
+                                    .then(dados => {
+                                        if(!("erro" in dados)){
+                                            document.getElementById('IDrua').value = dados.logradouros + " - " + dados.bairro; 
+                                        }else{
+                                            alert("CEP não encontrado :(");
+                                            document.getElementById('IDrua').value = "";
+                                        }
+                                    });
+                            }
+                        }
+                }
+            </script>
         </body>
     </html>
