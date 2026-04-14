@@ -35,23 +35,23 @@ app.include_router(product_router)
 # Rotas de Visualização (Frontend)
 @app.get("/", response_class=HTMLResponse)
 async def read_index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 @app.get("/login", response_class=HTMLResponse)
 async def read_login(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request, "login.html")
 
 @app.get("/cadastro", response_class=HTMLResponse)
 async def read_cadastro(request: Request):
-    return templates.TemplateResponse("cadastro.html", {"request": request})
+    return templates.TemplateResponse(request, "cadastro.html")
 
 @app.get("/produtos", response_class=HTMLResponse)
 async def read_produtos(request: Request):
-    return templates.TemplateResponse("produtos.html", {"request": request})
+    return templates.TemplateResponse(request, "produtos.html")
 
 @app.get("/senha-esquecida", response_class=HTMLResponse)
 async def read_senha(request: Request):
-    return templates.TemplateResponse("senha-esquecida.html", {"request": request})
+    return templates.TemplateResponse(request, "senha-esquecida.html")
 
 @app.get("/health")
 def health_check():
