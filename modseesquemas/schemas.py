@@ -1,11 +1,13 @@
 from pydantic import BaseModel
 
 class UserCreate(BaseModel):
-    name: str
+    nome: str
     email: str
-    password: str
-    type: str
-    store_name: str | None = None
+    senha: str
+    cep: str | None = None
+    rua: str | None = None
+    tipo: str = "comprador"
+    nome_loja: str | None = None
 
 class UserLogin(BaseModel):
     email: str

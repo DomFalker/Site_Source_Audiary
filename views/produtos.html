@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audiary - Produtos</title>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+    <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+        <a href="/" class="flex items-center gap-2 hover:opacity-80 transition">
+            <div class="bg-cyan-500 text-white p-2 rounded-lg font-bold">A</div>
+            <h1 class="text-xl font-bold">Audiary</h1>
+        </a>
+    
+        <div class="flex-1 max-w-xl mx-8">
+            <input type="text" placeholder="Buscar Instrumentos..." class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none">
+        </div>
+
+        <nav class="flex gap-6 items-center text-sm font-medium">
+            <a href="/" class="text-gray-600 hover:text-cyan-500">Home</a>
+            <a href="/login" class="hover:text-cyan-500">Entrar</a>
+        </nav>
+    </header>
+
+    <main class="flex-grow p-8 max-w-6xl mx-auto w-full">
+        <h2 class="text-3xl font-bold mb-8">Todos os Produtos</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Mockup de produtos -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 italic text-gray-400">
+                Nenhum produto cadastrado no momento. Seja o primeiro a anunciar!
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-10 text-center border-t border-gray-200">
+        <p class="text-gray-400 text-sm">Copyrights: 2026 Audiary - Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
