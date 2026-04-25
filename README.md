@@ -22,9 +22,9 @@ Nos envie um e-mail:
 
 ## Tecnologias usadas
 
-- Tecnologia 1
-- Tecnologia 2
-- Tecnologia 3
+- Api's de localização automática
+- Api's de acessibilidade (Vlibras)
+- Api de acesso a postagens em outros sites #<--- isso pode ser alterado mais para frente
 
 ----------------------------------------------------------------------------------------------------
 
