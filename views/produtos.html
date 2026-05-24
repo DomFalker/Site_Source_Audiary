@@ -18,8 +18,13 @@
         </div>
 
         <nav class="flex gap-6 items-center text-sm font-medium">
-            <a href="/" class="text-gray-600 hover:text-cyan-500">Home</a>
-            <a href="/login" class="hover:text-cyan-500">Entrar</a>
+            <a href="/" class="text-gray-600 hover:text-cyan-500 font-medium">Home</a>
+            {% if user %}
+                <span class="text-gray-600">Olá, <strong class="text-cyan-600 font-semibold">{{ user.name }}</strong>!</span>
+                <a href="/logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-full hover:bg-red-100 transition">Sair</a>
+            {% else %}
+                <a href="/login" class="hover:text-cyan-500">Entrar</a>
+            {% endif %}
         </nav>
     </header>
 

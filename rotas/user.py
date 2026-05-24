@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Form
+from fastapi import APIRouter, Depends, HTTPException, Form, Response
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from db.conex import get_db
@@ -43,6 +43,7 @@ def get_users(db: Session = Depends(get_db)):
 
 @user_router.post("/login")
 async def login(
+    response: Response,
     email: str = Form(...),
     password: str = Form(...),
     db: Session = Depends(get_db)
@@ -54,11 +55,8 @@ async def login(
 
     token = create_token({"user_id": db_user.id, "type": db_user.type})
 
-    # Em uma app real, salvaríamos o token em um cookie ou localStorage
-    # Por enquanto, redireciona para a home
-    response = RedirectResponse(url="/", status_code=303)
     response.set_cookie(key="access_token", value=token, httponly=True)
-    return response
+    return {"success": True, "redirect_url": "/produtos"}
 
 @user_router.post("/recover-password")
 async def recover_password(email: str = Form(...)):

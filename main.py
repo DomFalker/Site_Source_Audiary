@@ -1,11 +1,14 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Cookie, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
-from db.conex import engine, Base
+from fastapi.responses import HTMLResponse, RedirectResponse
+from db.conex import engine, Base, get_db
+from sqlalchemy.orm import Session
 from rotas.produto import product_router
 from rotas.user import user_router
+from modseesquemas.auth import decode_token
+from modseesquemas.model import User
 import os
 
 app = FastAPI(title="Site Audiário API")
@@ -32,26 +35,56 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(product_router)
 
+# Helper para obter o usuário autenticado a partir do cookie
+def obter_usuario_logado(access_token: str | None, db: Session) -> User | None:
+    if not access_token:
+        return None
+    payload = decode_token(access_token)
+    if not payload:
+        return None
+    user_id = payload.get("user_id")
+    if not user_id:
+        return None
+    return db.query(User).filter(User.id == user_id).first()
+
 # Rotas de Visualização (Frontend)
 @app.get("/", response_class=HTMLResponse)
-async def read_index(request: Request):
-    return templates.TemplateResponse(request, "index.html")
+async def read_index(request: Request, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
+    user = obter_usuario_logado(access_token, db)
+    return templates.TemplateResponse(request, "index.html", {"user": user})
 
 @app.get("/login", response_class=HTMLResponse)
-async def read_login(request: Request):
+async def read_login(request: Request, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
+    user = obter_usuario_logado(access_token, db)
+    if user:
+        return RedirectResponse(url="/produtos", status_code=303)
     return templates.TemplateResponse(request, "login.html")
 
 @app.get("/cadastro", response_class=HTMLResponse)
-async def read_cadastro(request: Request):
+async def read_cadastro(request: Request, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
+    user = obter_usuario_logado(access_token, db)
+    if user:
+        return RedirectResponse(url="/produtos", status_code=303)
     return templates.TemplateResponse(request, "cadastro.html")
 
 @app.get("/produtos", response_class=HTMLResponse)
-async def read_produtos(request: Request):
-    return templates.TemplateResponse(request, "produtos.html")
+async def read_produtos(request: Request, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
+    user = obter_usuario_logado(access_token, db)
+    if not user:
+        response = RedirectResponse(url="/login", status_code=303)
+        response.delete_cookie("access_token")
+        return response
+    return templates.TemplateResponse(request, "produtos.html", {"user": user})
 
 @app.get("/senha-esquecida", response_class=HTMLResponse)
 async def read_senha(request: Request):
     return templates.TemplateResponse(request, "senha-esquecida.html")
+
+@app.get("/logout")
+async def logout():
+    response = RedirectResponse(url="/login", status_code=303)
+    response.delete_cookie("access_token")
+    return response
 
 @app.get("/health")
 def health_check():

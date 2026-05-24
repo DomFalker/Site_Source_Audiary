@@ -33,7 +33,13 @@
                         <p class="text-gray-400 text-sm mt-1">Entre na sua conta para continuar!</p>
                     </div>
 
-                    <form action="/users/login" method="POST" class="space-y-6">
+                    <!-- Alerta de Erro de Autenticação -->
+                    <div id="error-alert" class="hidden mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3 transition-all duration-300">
+                        <span class="text-red-500 text-lg">⚠️</span>
+                        <div class="text-sm text-red-700 font-medium" id="error-message"></div>
+                    </div>
+
+                    <form class="space-y-6">
                         <div>
                             <label for="IDusuario" class="block text-sm font-medium text-gray-700 mb-1">E-mail ou Nome do Usuário:</label>
                             <input type="text" id="IDusuario" name="email" required placeholder="João@email.com" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
@@ -64,5 +70,45 @@
                    </form>
                 </div>
             </main>
+
+            <script>
+                const form = document.querySelector('form');
+                const errorAlert = document.getElementById('error-alert');
+                const errorMessage = document.getElementById('error-message');
+                const submitButton = form.querySelector('button[type="submit"]');
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    errorAlert.classList.add('hidden');
+                    errorMessage.textContent = '';
+                    
+                    submitButton.disabled = true;
+                    submitButton.textContent = 'CARREGANDO...';
+
+                    const formData = new FormData(form);
+
+                    try {
+                        const response = await fetch('/users/login', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            window.location.href = data.redirect_url;
+                        } else {
+                            const errorData = await response.json();
+                            errorMessage.textContent = errorData.detail || 'Ocorreu um erro ao fazer login. Tente novamente.';
+                            errorAlert.classList.remove('hidden');
+                        }
+                    } catch (error) {
+                        errorMessage.textContent = 'Erro de conexão com o servidor.';
+                        errorAlert.classList.remove('hidden');
+                    } finally {
+                        submitButton.disabled = false;
+                        submitButton.textContent = 'ENTRAR';
+                    }
+                });
+            </script>
         </body>
     </html>
