@@ -39,6 +39,8 @@ Como a nuvem exige credenciais pessoais para segurança, você tem duas opções
 
 ### ⚡ Opção 1: Deploy Automático via Render Blueprint (Recomendado - 1 Clique)
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/DomFalker/Site_Source_Audiary)
+
 Esta opção utiliza o arquivo [render.yaml](file:///c:/Users/flavi/OneDrive/Documents/Siteaudiario%20(2)/Siteaudiario/render.yaml) incluído no projeto. O Render lerá este arquivo e criará tanto o banco de dados PostgreSQL quanto o Web Service automaticamente, já conectados.
 
 #### Passo 1: Enviar as Alterações para o GitHub
