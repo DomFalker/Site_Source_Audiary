@@ -1,0 +1,28 @@
+# Ambientes virtuais e pacotes
+venv/
+.venv/
+env/
+.env
+.env.*
+
+# Python cache e bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Git
+.git
+.gitignore
+
+# IDEs e configurações
+.vscode/
+.idea/
+
+# Banco de dados local e temporários
+*.db
+*.sqlite3
+scratch/
+alembic.ini
+alembic/
+*.md

@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: siteaudiario
+    plan: free
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: siteaudiariodb
+          property: connectionString
+
+databases:
+  - name: siteaudiariodb
+    plan: free
+    databaseName: audiary
+    user: postgres
