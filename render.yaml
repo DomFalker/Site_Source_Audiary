@@ -15,4 +15,3 @@ databases:
   - name: siteaudiariodb
     plan: free
     databaseName: audiary
-    user: postgres
