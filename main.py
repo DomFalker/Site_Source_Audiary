@@ -68,14 +68,22 @@ async def read_cadastro(request: Request, access_token: str | None = Cookie(None
     return templates.TemplateResponse(request, "cadastro.html")
 
 @app.get("/produtos", response_class=HTMLResponse)
-async def read_produtos(request: Request, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
+async def read_produtos(request: Request, search: str | None = None, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
     user = obter_usuario_logado(access_token, db)
     if not user:
         response = RedirectResponse(url="/login", status_code=303)
         response.delete_cookie("access_token")
         return response
-    produtos = db.query(Product).all()
-    return templates.TemplateResponse(request, "produtos.html", {"user": user, "produtos": produtos})
+    
+    query = db.query(Product)
+    if search:
+        query = query.filter(
+            (Product.name.ilike(f"%{search}%")) |
+            (Product.brand.ilike(f"%{search}%")) |
+            (Product.condition.ilike(f"%{search}%"))
+        )
+    produtos = query.all()
+    return templates.TemplateResponse(request, "produtos.html", {"user": user, "produtos": produtos, "search": search})
 
 @app.get("/produtos/novo", response_class=HTMLResponse)
 async def read_novo_produto(request: Request, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):

@@ -11,15 +11,15 @@
         <body class="bg-slate-50 text-gray-800 font-sans">
             <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
             <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
-                <div class="flex items-center gap-2">
+                <a href="/" class="flex items-center gap-2 hover:opacity-80 transition">
                     <div class="bg-cyan-500 text-white p-2 rounded-lg font-bold">A</div>
                     <h1 class="text-xl font-bold">Audiary</h1>
-                </div>
+                </a>
 
-                <div class="flex-1 max-w-xl mx-8">
-                    <input type="text" placeholder="Buscar Instrumentos, acessórios e muito mais" aria-label="Buscar instrumentos, acessórios e muito mais"
+                <form action="/produtos" method="GET" class="flex-grow max-w-xl mx-8">
+                    <input type="text" name="search" placeholder="Buscar Instrumentos, acessórios e muito mais" aria-label="Buscar instrumentos, acessórios e muito mais"
                     class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">
-                </div>
+                </form>
             
                 <nav class="flex gap-6 items-center text-sm font-medium">
                     <a href="/produtos" class="text-gray-600 hover:text-cyan-500 font-medium">Explorar Livre</a>
@@ -51,25 +51,25 @@
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                    
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer" tabindex="0" role="button" aria-label="Categoria Guitarras">
+                        <a href="/produtos?search=Guitarras" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition focus:ring-2 focus:ring-cyan-500 focus:outline-none" aria-label="Categoria Guitarras">
                             <div class="text-cyan-500 text-4xl mb-4" role="img" aria-label="Guitarra">🎸</div>
-                            <span class="font-semibold">Guitarras</span>
-                        </div>
+                            <span class="font-semibold text-gray-800">Guitarras</span>
+                        </a>
 
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer" tabindex="0" role="button" aria-label="Categoria Baterias">
+                        <a href="/produtos?search=Baterias" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition focus:ring-2 focus:ring-cyan-500 focus:outline-none" aria-label="Categoria Baterias">
                             <div class="text-cyan-500 text-4xl mb-4" role="img" aria-label="Bateria">🥁</div>
-                            <span class="font-semibold">Baterias</span>
-                        </div>
+                            <span class="font-semibold text-gray-800">Baterias</span>
+                        </a>
 
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer" tabindex="0" role="button" aria-label="Categoria Teclados">
+                        <a href="/produtos?search=Teclados" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition focus:ring-2 focus:ring-cyan-500 focus:outline-none" aria-label="Categoria Teclados">
                             <div class="text-cyan-500 flex justify-center text-4xl mb-4" role="img" aria-label="Teclado">🎹</div>
-                            <span class="font-semibold">Teclados</span>
-                        </div>
+                            <span class="font-semibold text-gray-800">Teclados</span>
+                        </a>
 
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer" tabindex="0" role="button" aria-label="Categoria Microfones">
+                        <a href="/produtos?search=Microfones" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition focus:ring-2 focus:ring-cyan-500 focus:outline-none" aria-label="Categoria Microfones">
                             <div class="text-cyan-500 text-4xl mb-4" role="img" aria-label="Microfone">🎤</div>
-                        <span class="font-semibold">Microfones</span>
-                        </div>
+                            <span class="font-semibold text-gray-800">Microfones</span>
+                        </a>
                 </div>
             </section>
             <section class="bg-gray-100 py-16 px-4">

@@ -15,9 +15,9 @@
             <h1 class="text-xl font-bold">Audiary</h1>
         </a>
     
-        <div class="flex-1 max-w-xl mx-8">
-            <input type="text" placeholder="Buscar Instrumentos..." aria-label="Buscar instrumentos" class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">
-        </div>
+        <form action="/produtos" method="GET" class="flex-1 max-w-xl mx-8">
+            <input type="text" name="search" value="{{ search if search else '' }}" placeholder="Buscar Instrumentos..." aria-label="Buscar instrumentos" class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">
+        </form>
 
         <nav class="flex gap-6 items-center text-sm font-medium">
             <a href="/" class="text-gray-600 hover:text-cyan-500 font-medium">Home</a>
