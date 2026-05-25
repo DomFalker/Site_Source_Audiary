@@ -1,0 +1,340 @@
+/* ==========================================================================
+   Estilos de Acessibilidade - WCAG 2 Compliance (Site Audiário)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Link de Salto (Skip Link)
+   -------------------------------------------------------------------------- */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 20px;
+    background: #06b6d4; /* cyan-500 */
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 0 0 8px 8px;
+    z-index: 100000;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid #ff00ff !important;
+    outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Foco de Alto Contraste para Navegação por Teclado
+   -------------------------------------------------------------------------- */
+body.keyboard-navigating *:focus-visible,
+body.keyboard-navigating *:focus {
+    outline: 3px solid #06b6d4 !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.4) !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Fonte para Dislexia (Lexend ou Arial com espaçamento aumentado)
+   -------------------------------------------------------------------------- */
+body.dyslexic-font,
+body.dyslexic-font * {
+    font-family: 'Lexend', 'Comic Sans MS', sans-serif !important;
+    letter-spacing: 0.12em !important;
+    word-spacing: 0.25em !important;
+    line-height: 1.8 !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Alto Contraste (Cores estritas WCAG AAA)
+   -------------------------------------------------------------------------- */
+body.high-contrast,
+body.high-contrast * {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast a,
+body.high-contrast button,
+body.high-contrast nav a,
+body.high-contrast header a,
+body.high-contrast a *,
+body.high-contrast button * {
+    color: #ffff00 !important;
+    text-decoration: underline !important;
+}
+
+body.high-contrast a:hover,
+body.high-contrast button:hover {
+    color: #00ffff !important;
+    background-color: #111111 !important;
+}
+
+body.high-contrast input,
+body.high-contrast select,
+body.high-contrast textarea {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+}
+
+body.high-contrast input::placeholder {
+    color: #cccccc !important;
+}
+
+body.high-contrast *:focus {
+    outline: 3px solid #ffff00 !important;
+    outline-offset: 2px !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. Guia de Leitura
+   -------------------------------------------------------------------------- */
+#reading-guide-line {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: rgba(239, 68, 68, 0.7); /* Red with opacity */
+    z-index: 999999;
+    pointer-events: none;
+    display: none;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   6. Painel de Acessibilidade (Widget Flutuante)
+   -------------------------------------------------------------------------- */
+#accessibility-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+#accessibility-btn {
+    width: 56px;
+    height: 56px;
+    background-color: #06b6d4;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#accessibility-btn:hover {
+    transform: scale(1.08);
+    background-color: #0891b2;
+}
+
+#accessibility-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+}
+
+#accessibility-dialog {
+    display: none;
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 320px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(229, 231, 235, 0.8);
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    flex-direction: column;
+    gap: 16px;
+    animation: slideUp 0.3s ease-out;
+}
+
+#accessibility-dialog.active {
+    display: flex;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#accessibility-dialog h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.acc-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.acc-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.acc-btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.acc-btn {
+    flex: 1;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.acc-btn:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.acc-btn.active {
+    background: #ecfeff;
+    border-color: #06b6d4;
+    color: #0891b2;
+    font-weight: 600;
+}
+
+.acc-toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9fafb;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #f3f4f6;
+}
+
+/* Switch styling */
+.acc-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.acc-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.acc-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.acc-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .acc-slider {
+    background-color: #06b6d4;
+}
+
+input:checked + .acc-slider:before {
+    transform: translateX(20px);
+}
+
+.acc-reset-btn {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    color: #4b5563;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.acc-reset-btn:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+/* Adaptations for High Contrast Mode on the widget itself */
+body.high-contrast #accessibility-dialog {
+    background: #000000 !important;
+    border: 3px solid #ffffff !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast #accessibility-btn {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast .acc-btn {
+    border: 2px solid #ffffff !important;
+    background: #000000 !important;
+    color: #ffff00 !important;
+}
+
+body.high-contrast .acc-btn.active {
+    border: 2px solid #ffff00 !important;
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+body.high-contrast .acc-reset-btn {
+    border: 2px solid #ffffff !important;
+    background: #000000 !important;
+    color: #ffff00 !important;
+}

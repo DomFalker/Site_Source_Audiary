@@ -5,9 +5,11 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Audiary - Home</title>
+            <link rel="stylesheet" href="/public/accessibility.css">
         </head>
         
         <body class="bg-slate-50 text-gray-800 font-sans">
+            <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
             <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
                 <div class="flex items-center gap-2">
                     <div class="bg-cyan-500 text-white p-2 rounded-lg font-bold">A</div>
@@ -15,8 +17,8 @@
                 </div>
 
                 <div class="flex-1 max-w-xl mx-8">
-                    <input type="text" placeholder="Buscar Instrumentos, acessórios e muito mais"
-                    class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                    <input type="text" placeholder="Buscar Instrumentos, acessórios e muito mais" aria-label="Buscar instrumentos, acessórios e muito mais"
+                    class="w-full border border-gray-300 rounded-full py-2 px-6 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">
                 </div>
             
                 <nav class="flex gap-6 items-center text-sm font-medium">
@@ -30,7 +32,7 @@
                     {% endif %}
                 </nav>
             </header>
-            <main class="text-center py-20 px-4">
+            <main id="main-content" class="text-center py-20 px-4">
                 <h2 class="text-6xl font-black mb-4">Audiary</h2>
                 <p class="text-gray-500 text-lg max-w-lg mx-auto mb-10">
                     Encontre Instrumentos e diversos equipamentos sejam eles novos ou usados com os melhores preços! 
@@ -49,23 +51,23 @@
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                    
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer">
-                            <div class="text-cyan-500 text-4xl mb-4">🎸</div>
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer" tabindex="0" role="button" aria-label="Categoria Guitarras">
+                            <div class="text-cyan-500 text-4xl mb-4" role="img" aria-label="Guitarra">🎸</div>
                             <span class="font-semibold">Guitarras</span>
                         </div>
 
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer">
-                            <div class="text-cyan-500 text-4xl mb-4">🥁</div>
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer" tabindex="0" role="button" aria-label="Categoria Baterias">
+                            <div class="text-cyan-500 text-4xl mb-4" role="img" aria-label="Bateria">🥁</div>
                             <span class="font-semibold">Baterias</span>
                         </div>
 
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100  flex flex-col items-center hover:shadow-md transition cursor-pointer">
-                            <div class="text-cyan-500 flex justify-center text-4xl mb-4">🎹</div>
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer" tabindex="0" role="button" aria-label="Categoria Teclados">
+                            <div class="text-cyan-500 flex justify-center text-4xl mb-4" role="img" aria-label="Teclado">🎹</div>
                             <span class="font-semibold">Teclados</span>
                         </div>
 
-                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer">
-                            <div class="text-cyan-500 text-4xl mb-4">🎤</div>
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition cursor-pointer" tabindex="0" role="button" aria-label="Categoria Microfones">
+                            <div class="text-cyan-500 text-4xl mb-4" role="img" aria-label="Microfone">🎤</div>
                         <span class="font-semibold">Microfones</span>
                         </div>
                 </div>
@@ -88,32 +90,32 @@
                         <div class="flex flex-wrap justify-center gap-10">
 
                             <div class="flex flex-col items-center text-center max-w-[200px]">
-                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md">DF</div>
-                                    <p class="font-bold text-gray-800 leading-tight">Daniel de Jesus<br><span class=text-xs font-normal text-gray-400>aka: DomFalker</span></p>
+                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md" aria-hidden="true">DF</div>
+                                    <p class="font-bold text-gray-800 leading-tight">Daniel de Jesus<br><span class="text-xs font-normal text-gray-400">aka: DomFalker</span></p>
                                     <p class="text-xs text-cyan-600 font-medium mt-1">Dev Front-End</p>
                             </div>
 
                             <div class="flex flex-col items-center text-center max-w-[200px]">
-                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md">JW</div>
-                                    <p class="font-bold text-gray-800 leading-tight">Julius Wanderley<br><span class=text-xs font-normal text-gray-400>aka: Julius</span></p>
+                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md" aria-hidden="true">JW</div>
+                                    <p class="font-bold text-gray-800 leading-tight">Julius Wanderley<br><span class="text-xs font-normal text-gray-400">aka: Julius</span></p>
                                     <p class="text-xs text-cyan-600 font-medium mt-1">Dev Front-End</p>
                             </div>
 
                             <div class="flex flex-col items-center text-center max-w-[200px]">
-                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md">FJ</div>
-                                    <p class="font-bold text-gray-800 leading-tight">Flávio José<br><span class=text-xs font-normal text-gray-400>aka: Flávio</span></p>
+                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md" aria-hidden="true">FJ</div>
+                                    <p class="font-bold text-gray-800 leading-tight">Flávio José<br><span class="text-xs font-normal text-gray-400">aka: Flávio</span></p>
                                     <p class="text-xs text-cyan-600 font-medium mt-1">Dev Back-End</p>
                             </div>
 
                             <div class="flex flex-col items-center text-center max-w-[200px]">
-                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md">AB</div>
-                                    <p class="font-bold text-gray-800 leading-tight">Arthur Abreu<br><span class=text-xs font-normal text-gray-400>aka: Abreu</span></p>
+                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md" aria-hidden="true">AB</div>
+                                    <p class="font-bold text-gray-800 leading-tight">Arthur Abreu<br><span class="text-xs font-normal text-gray-400">aka: Abreu</span></p>
                                     <p class="text-xs text-cyan-600 font-medium mt-1">Dev Back-End</p>
                             </div>
 
                             <div class="flex flex-col items-center text-center max-w-[200px]">
-                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md">ATP</div>
-                                    <p class="font-bold text-gray-800 leading-tight">Antônio Pedro Lessa<br><span class=text-xs font-normal text-gray-400>aka: Tonho</span></p>
+                                <div class="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4 shadow-md" aria-hidden="true">ATP</div>
+                                    <p class="font-bold text-gray-800 leading-tight">Antônio Pedro Lessa<br><span class="text-xs font-normal text-gray-400">aka: Tonho</span></p>
                                     <p class="text-xs text-cyan-600 font-medium mt-1">Designer</p>
                             </div>
                         </div>
@@ -123,5 +125,6 @@
             <footer class="py-10 text-center border-t border-gray-200">
                 <p class="text-gray-400 text-sm">Copyrights: 2026 Audiary - Todos os direitos reservados pelos fundadores.</p>
             </footer>
+            <script src="/public/accessibility.js"></script>
         </body>
     </html>

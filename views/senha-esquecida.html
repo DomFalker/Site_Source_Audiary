@@ -5,10 +5,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Audiary/Recuperacao_Senha</title>
+        <link rel="stylesheet" href="/public/accessibility.css">
     </head>
     
-    <body class="bg-gray-100 min-h-screen flex items-center justify-center">
-        <main class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+    <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+        <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
+        <main id="main-content" class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md my-auto">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-blue-600">Audiary</h1>
                 <p class="text-gray-500 mt-2">Esqueceu a sua senha? Normal! recupere aqui!</p>
@@ -20,11 +22,11 @@
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Seu Email:</label>
                     <input type="email" id="email" name="email" required placeholder="JoãoAltinho@vasco.com"
-                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
                 </div>
                 <button type="submit"
-                    class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200">
+                    class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                     Enviar Link de recuperação!
                 </button>
             </form>
@@ -33,9 +35,9 @@
             </div>
 
         </main>
-
+        <footer class="py-6 text-center mt-auto w-full">
+            <p class="text-gray-400 text-sm">Copyrights: 2026 Audiary - Todos os direitos reservados.</p>
+        </footer>
+        <script src="/public/accessibility.js"></script>
     </body>
-    <footer>
-        <p>Copyrights: 2026 Audiary - Todos os direitos reservados.</p>
-    </footer>
 </html>
