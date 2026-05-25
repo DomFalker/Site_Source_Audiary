@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Audiary - Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/accessibility.css">
+    <style>
+        /* Efeito de Flip no Cartão 3D */
+        .card-container {
+            perspective: 1000px;
+        }
+        .credit-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .credit-card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+    <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
+    
+    <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+        <a href="/" class="flex items-center gap-2 hover:opacity-80 transition">
+            <div class="bg-cyan-500 text-white p-2 rounded-lg font-bold text-sm">A</div>
+            <h1 class="text-xl font-bold">Audiary</h1>
+        </a>
+        <nav class="flex items-center gap-6 text-sm font-medium">
+            <a href="/produtos" class="text-gray-600 hover:text-cyan-500 transition">Voltar aos Produtos</a>
+            {% if user %}
+                <span class="text-gray-600">Olá, <strong class="text-cyan-600 font-semibold">{{ user.name }}</strong>!</span>
+                <a href="/logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-full hover:bg-red-100 transition">Sair</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main id="main-content" class="flex-grow max-w-4xl w-full mx-auto p-4 md:p-8">
+        <!-- Secção 1: Checkout Form e Resumo -->
+        <div id="checkout-section" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Resumo do Produto (Lado Esquerdo no Mobile / Lado Direito no Desktop) -->
+            <div class="lg:col-span-5 lg:order-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-6">
+                <h2 class="text-lg font-bold text-gray-800 border-bottom pb-2 border-gray-100">Resumo da Compra</h2>
+                
+                <div class="flex gap-4 items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                    <div class="w-16 h-16 bg-cyan-500 text-white rounded-lg flex items-center justify-center text-3xl shadow-sm" aria-hidden="true">
+                        🎸
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-800 text-base">{{ produto.name }}</h3>
+                        <p class="text-xs text-gray-400">Marca: {{ produto.brand }}</p>
+                        <span class="inline-block bg-cyan-50 text-cyan-600 text-[10px] px-2 py-0.5 mt-1 rounded font-semibold">{{ produto.condition }}</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between text-gray-500">
+                        <span>Vendedor</span>
+                        <span class="font-medium text-gray-700">{{ produto.seller.name if produto.seller else 'Anônimo' }}</span>
+                    </div>
+                    <div class="flex justify-between text-gray-500">
+                        <span>Subtotal</span>
+                        <span class="font-medium text-gray-700">R$ {{ "%.2f"|format(produto.price) }}</span>
+                    </div>
+                    <div class="flex justify-between text-gray-500">
+                        <span>Frete</span>
+                        <span class="text-green-600 font-semibold">Grátis</span>
+                    </div>
+                    <hr class="border-gray-100">
+                    <div class="flex justify-between text-base font-bold text-gray-800">
+                        <span>Total</span>
+                        <span class="text-cyan-600">R$ {{ "%.2f"|format(produto.price) }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulários de Pagamento (Lado Esquerdo) -->
+            <div class="lg:col-span-7 lg:order-1 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Escolha o Método de Pagamento</h2>
+                
+                <!-- Abas dos Métodos -->
+                <div class="flex border border-gray-200 rounded-xl overflow-hidden mb-6" role="tablist" aria-label="Opções de Pagamento">
+                    <button type="button" id="tab-pix" onclick="switchMethod('pix')" role="tab" aria-selected="true" aria-controls="panel-pix" class="flex-1 py-3 bg-cyan-50 text-cyan-600 font-bold text-sm border-r border-gray-200 flex items-center justify-center gap-2 focus:outline-none">
+                        <i class="fa-solid fa-pix"></i> PIX
+                    </button>
+                    <button type="button" id="tab-card" onclick="switchMethod('card')" role="tab" aria-selected="false" aria-controls="panel-card" class="flex-1 py-3 bg-white text-gray-500 font-medium text-sm flex items-center justify-center gap-2 hover:bg-gray-50 focus:outline-none">
+                        <i class="fa-solid fa-credit-card"></i> Cartão de Crédito
+                    </button>
+                </div>
+
+                <!-- Painel PIX -->
+                <div id="panel-pix" role="tabpanel" aria-labelledby="tab-pix" class="space-y-6 flex flex-col items-center">
+                    <p class="text-sm text-gray-500 text-center">Escaneie o código QR abaixo ou copie a chave PIX para finalizar a compra.</p>
+                    
+                    <!-- QR Code Mock -->
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 flex items-center justify-center w-48 h-48 shadow-inner relative">
+                        <!-- Simulated QR Code with SVG -->
+                        <svg class="w-full h-full text-gray-800" viewBox="0 0 100 100" fill="currentColor">
+                            <path d="M5 5h30v30H5V5zm5 5v20h20V10H10zm5 5h10v10H15V15zm50-10h30v30H65V5zm5 5v20h20V10H70zm5 5h10v10H75V15zM5 65h30v30H5V65zm5 5v20h20V70H10zm5 5h10v10H15V75zm50-10h10v10H65V65zm10 10h10v10H75V75zm10-10h5v5h-5v-5zm-5 15h5v5h-5v-5zm10 5h5v5h-5v-5zm-15-5h5v5h-5v-5zm-10-10h5v5h-5v-5zm15-10h5v5h-5v-5zm-5 5h5v5h-5v-5zm15 15h5v5h-5v-5zM45 15h10v10H45V15zm0 20h10v10H45V35zm0 20h10v10H45V55zm10-10h10v10H55V45zm-20 10h10v10H35V55zm20 20h10v10H55V75z" />
+                        </svg>
+                        <div class="absolute inset-0 bg-black bg-opacity-0 flex items-center justify-center transition-all duration-300" id="qr-spinner-overlay">
+                            <!-- Spinner inside QR -->
+                        </div>
+                    </div>
+
+                    <!-- Contador e Status -->
+                    <div class="text-center space-y-1">
+                        <p class="text-xs text-gray-400" id="pix-countdown">O código expira em 10:00</p>
+                        <div class="flex items-center justify-center gap-2 text-cyan-600 text-sm font-bold">
+                            <svg class="animate-spin h-4 w-4 text-cyan-500" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span>Aguardando transferência bancária...</span>
+                        </div>
+                        <p class="text-xs text-gray-400 font-semibold italic mt-2">Dica: O pagamento é confirmado automaticamente em 5 segundos!</p>
+                    </div>
+
+                    <!-- Copiar Código -->
+                    <div class="w-full space-y-2">
+                        <label for="pix-copy-input" class="block text-xs font-semibold text-gray-500">Código Copia e Cola:</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="pix-copy-input" readonly value="00020126580014br.gov.bcb.pix0136audiary-payment-{{ produto.id }}@pix.site.com5204000053039865407{{ produto.price }}5802BR5915AudiaryMarket6009SaoPaulo620705031236304" class="block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg text-xs font-mono text-gray-500 select-all focus:outline-none">
+                            <button type="button" onclick="copyPixCode()" id="btn-copy-pix" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition flex items-center gap-1 shrink-0 focus:ring-2 focus:ring-cyan-500 focus:outline-none">
+                                <i class="fa-regular fa-copy"></i> <span>Copiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel Cartão de Crédito -->
+                <div id="panel-card" role="tabpanel" aria-labelledby="tab-card" class="hidden space-y-6">
+                    
+                    <!-- Simulador de Cartão Interativo -->
+                    <div class="card-container w-full max-w-[320px] h-[190px] mx-auto">
+                        <div class="credit-card-inner w-full h-full" id="interactive-card">
+                            
+                            <!-- Frente do Cartão -->
+                            <div class="card-front bg-gradient-to-br from-cyan-600 to-cyan-400 p-6 rounded-2xl shadow-md text-white flex flex-col justify-between select-none">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-[9px] uppercase tracking-widest text-cyan-100">Cartão de Crédito</p>
+                                        <h4 class="font-bold text-lg tracking-wide">Audiary Pay</h4>
+                                    </div>
+                                    <div class="w-10 h-8 bg-white/20 rounded-md flex items-center justify-center text-lg">
+                                        <i class="fa-solid fa-wifi text-cyan-100/70"></i>
+                                    </div>
+                                </div>
+                                <div class="w-10 h-8 bg-yellow-400/90 rounded-md mb-2 shadow-inner"></div> <!-- Chip -->
+                                <div>
+                                    <p class="font-mono text-base tracking-widest text-white/95" id="card-num-display">•••• •••• •••• ••••</p>
+                                    <div class="flex justify-between items-end mt-2">
+                                        <div>
+                                            <p class="text-[7px] uppercase text-cyan-200">Portador</p>
+                                            <p class="font-bold text-xs uppercase tracking-wide truncate max-w-[170px]" id="card-name-display">Nome do Titular</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-[7px] uppercase text-cyan-200">Validade</p>
+                                            <p class="font-bold font-mono text-xs" id="card-expiry-display">MM/AA</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Verso do Cartão -->
+                            <div class="card-back bg-gradient-to-br from-cyan-700 to-cyan-500 rounded-2xl shadow-md text-white flex flex-col justify-between py-6 select-none">
+                                <div class="w-full h-10 bg-gray-800"></div> <!-- Stripe -->
+                                <div class="px-6 flex items-center justify-between gap-4 mt-2">
+                                    <div class="bg-white/30 h-8 flex-grow rounded px-2 flex items-center font-mono italic text-xs text-gray-100">
+                                        Assinatura Autorizada
+                                    </div>
+                                    <div class="bg-white text-gray-800 font-mono text-sm px-3 py-1 rounded shadow-inner font-bold" id="card-cvv-display">
+                                        •••
+                                    </div>
+                                </div>
+                                <div class="px-6 flex justify-between items-center text-[7px] text-cyan-200 mt-2">
+                                    <span>AUDIARY PAY MOCK SYSTEM</span>
+                                    <i class="fa-brands fa-cc-mastercard text-2xl text-white/40"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulário Cartão -->
+                    <form id="card-form" class="space-y-4">
+                        <div>
+                            <label for="card-num-input" class="block text-sm font-medium text-gray-700 mb-1">Número do Cartão:</label>
+                            <input type="text" id="card-num-input" required maxlength="19" placeholder="4444 5555 6666 7777" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="card-name-input" class="block text-sm font-medium text-gray-700 mb-1">Nome Impresso no Cartão:</label>
+                            <input type="text" id="card-name-input" required placeholder="JOÃO A SILVA" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none sm:text-sm uppercase">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="card-expiry-input" class="block text-sm font-medium text-gray-700 mb-1">Validade (MM/AA):</label>
+                                <input type="text" id="card-expiry-input" required maxlength="5" placeholder="12/30" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none sm:text-sm">
+                            </div>
+                            <div>
+                                <label for="card-cvv-input" class="block text-sm font-medium text-gray-700 mb-1">CVV:</label>
+                                <input type="text" id="card-cvv-input" required maxlength="4" placeholder="123" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none sm:text-sm">
+                            </div>
+                        </div>
+                        <button type="submit" id="btn-pay-card" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-cyan-400 hover:bg-cyan-500 transition duration-150">
+                            PAGAR R$ {{ "%.2f"|format(produto.price) }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secção 2: Tela de Processamento -->
+        <div id="processing-section" class="hidden flex-col items-center justify-center bg-white p-12 rounded-2xl shadow-sm border border-gray-100 text-center gap-6 my-10">
+            <svg class="animate-spin h-16 w-16 text-cyan-500" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <div>
+                <h3 class="text-xl font-bold text-gray-800">Processando Pagamento</h3>
+                <p class="text-sm text-gray-400 mt-2">Estamos validando os dados e processando a transação financeira com a operadora...</p>
+            </div>
+        </div>
+
+        <!-- Secção 3: Tela de Sucesso -->
+        <div id="success-section" class="hidden flex-col items-center justify-center bg-white p-12 rounded-2xl shadow-sm border border-gray-100 text-center gap-6 my-10 max-w-md mx-auto">
+            <div class="bg-cyan-50 text-cyan-500 w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-sm" role="img" aria-label="Compra Confirmada">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Pagamento Aprovado!</h1>
+                <p class="text-sm text-gray-500 mt-2">Parabéns! Sua compra foi finalizada com sucesso e o vendedor foi notificado.</p>
+            </div>
+
+            <!-- Recibo Simplificado -->
+            <div class="w-full bg-gray-50 p-4 rounded-xl border border-gray-100 text-left text-xs space-y-2 text-gray-500">
+                <div class="flex justify-between">
+                    <span>Produto:</span>
+                    <span class="font-bold text-gray-700">{{ produto.name }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Preço:</span>
+                    <span class="font-bold text-gray-700">R$ {{ "%.2f"|format(produto.price) }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Código da Compra:</span>
+                    <span class="font-mono text-gray-700" id="receipt-id">AUD-6539281-CONF</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Data:</span>
+                    <span class="font-mono text-gray-700" id="receipt-date">25/05/2026</span>
+                </div>
+            </div>
+
+            <a href="/produtos" class="w-full bg-cyan-400 hover:bg-cyan-500 text-white font-bold py-2.5 rounded-md shadow-sm transition duration-150 focus:ring-2 focus:ring-cyan-500 focus:outline-none text-sm text-center">
+                EXPLORAR MAIS PRODUTOS
+            </a>
+        </div>
+    </main>
+
+    <footer class="py-6 text-center border-t border-gray-200 mt-auto">
+        <p class="text-gray-400 text-[10px]">Copyrights: 2026 Audiary - Todos os direitos reservados para os fundadores.</p>
+    </footer>
+
+    <script src="/public/accessibility.js"></script>
+    <script>
+        // Alternar Métodos de Pagamento (PIX / Cartão)
+        function switchMethod(method) {
+            const tabPix = document.getElementById('tab-pix');
+            const tabCard = document.getElementById('tab-card');
+            const panelPix = document.getElementById('panel-pix');
+            const panelCard = document.getElementById('panel-card');
+
+            if (method === 'pix') {
+                tabPix.className = 'flex-1 py-3 bg-cyan-50 text-cyan-600 font-bold text-sm border-r border-gray-200 flex items-center justify-center gap-2 focus:outline-none';
+                tabPix.setAttribute('aria-selected', 'true');
+                tabCard.className = 'flex-1 py-3 bg-white text-gray-500 font-medium text-sm flex items-center justify-center gap-2 hover:bg-gray-50 focus:outline-none';
+                tabCard.setAttribute('aria-selected', 'false');
+                panelPix.classList.remove('hidden');
+                panelCard.classList.add('hidden');
+                
+                // Reiniciar o timer do PIX
+                startPixTimer();
+            } else {
+                tabCard.className = 'flex-1 py-3 bg-cyan-50 text-cyan-600 font-bold text-sm flex items-center justify-center gap-2 focus:outline-none';
+                tabCard.setAttribute('aria-selected', 'true');
+                tabPix.className = 'flex-1 py-3 bg-white text-gray-500 font-medium text-sm border-r border-gray-200 flex items-center justify-center gap-2 hover:bg-gray-50 focus:outline-none';
+                tabPix.setAttribute('aria-selected', 'false');
+                panelCard.classList.remove('hidden');
+                panelPix.classList.add('hidden');
+                
+                // Cancelar simulação de PIX
+                if (pixTimeout) clearTimeout(pixTimeout);
+            }
+        }
+
+        // Simulação do Copiar Código PIX
+        function copyPixCode() {
+            const copyInput = document.getElementById('pix-copy-input');
+            copyInput.select();
+            document.execCommand('copy');
+            
+            const btnCopy = document.getElementById('btn-copy-pix');
+            const btnText = btnCopy.querySelector('span');
+            btnText.textContent = 'Copiado!';
+            btnCopy.classList.remove('bg-cyan-500', 'hover:bg-cyan-600');
+            btnCopy.classList.add('bg-green-500', 'hover:bg-green-600');
+            
+            setTimeout(() => {
+                btnText.textContent = 'Copiar';
+                btnCopy.classList.remove('bg-green-500', 'hover:bg-green-600');
+                btnCopy.classList.add('bg-cyan-500', 'hover:bg-cyan-600');
+            }, 2000);
+        }
+
+        // Temporizador de Expiração do PIX
+        let pixInterval;
+        function startPixTimer() {
+            if (pixInterval) clearInterval(pixInterval);
+            let time = 600; // 10 minutos
+            const countdownEl = document.getElementById('pix-countdown');
+            
+            pixInterval = setInterval(() => {
+                const minutes = Math.floor(time / 60);
+                const seconds = time % 60;
+                countdownEl.textContent = `O código expira em ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (time <= 0) {
+                    clearInterval(pixInterval);
+                    countdownEl.textContent = 'Código PIX expirado. Atualize para gerar outro.';
+                }
+                time--;
+            }, 1000);
+        }
+
+        // Simulação de confirmação automática do PIX (5 segundos)
+        let pixTimeout;
+        function startPixSimulation() {
+            if (pixTimeout) clearTimeout(pixTimeout);
+            pixTimeout = setTimeout(async () => {
+                // Confirmar pagamento
+                await triggerPurchaseCompletion();
+            }, 5000);
+        }
+
+        // Simulação 3D de Flipping do Cartão
+        const cardInner = document.getElementById('interactive-card');
+        const numInput = document.getElementById('card-num-input');
+        const nameInput = document.getElementById('card-name-input');
+        const expiryInput = document.getElementById('card-expiry-input');
+        const cvvInput = document.getElementById('card-cvv-input');
+
+        // Rotaciona o cartão para a frente
+        const rotateToFront = () => cardInner.classList.remove('flipped');
+        // Rotaciona o cartão para o verso
+        const rotateToBack = () => cardInner.classList.add('flipped');
+
+        cvvInput.addEventListener('focus', rotateToBack);
+        cvvInput.addEventListener('blur', rotateToFront);
+        numInput.addEventListener('focus', rotateToFront);
+        nameInput.addEventListener('focus', rotateToFront);
+        expiryInput.addEventListener('focus', rotateToFront);
+
+        // Preenchimento dinâmico do Cartão 3D
+        numInput.addEventListener('input', (e) => {
+            // Formata com espaços a cada 4 dígitos
+            let value = e.target.value.replace(/\D/g, '');
+            let formatted = [];
+            for (let i = 0; i < value.length; i += 4) {
+                formatted.push(value.substr(i, 4));
+            }
+            e.target.value = formatted.join(' ');
+            document.getElementById('card-num-display').textContent = e.target.value || '•••• •••• •••• ••••';
+        });
+
+        nameInput.addEventListener('input', (e) => {
+            document.getElementById('card-name-display').textContent = e.target.value.toUpperCase() || 'Nome do Titular';
+        });
+
+        expiryInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.substr(0,2) + '/' + value.substr(2,2);
+            }
+            e.target.value = value;
+            document.getElementById('card-expiry-display').textContent = e.target.value || 'MM/AA';
+        });
+
+        cvvInput.addEventListener('input', (e) => {
+            document.getElementById('card-cvv-display').textContent = e.target.value || '•••';
+        });
+
+        // Envio do formulário do cartão
+        document.getElementById('card-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            // Inicia fluxo de processamento e finalização
+            document.getElementById('checkout-section').classList.add('hidden');
+            document.getElementById('processing-section').classList.remove('hidden');
+            document.getElementById('processing-section').classList.add('flex');
+            
+            setTimeout(async () => {
+                await triggerPurchaseCompletion();
+            }, 3000); // 3 segundos processando cartão
+        });
+
+        // Chamar backend para registrar compra (deleta produto) e mudar para tela de sucesso
+        async function triggerPurchaseCompletion() {
+            if (pixInterval) clearInterval(pixInterval);
+            
+            try {
+                const response = await fetch(`/checkout/{{ produto.id }}/pagar`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    // Configura o recibo
+                    const randomId = 'AUD-' + Math.floor(1000000 + Math.random() * 9000000) + '-CONF';
+                    document.getElementById('receipt-id').textContent = randomId;
+                    
+                    const today = new Date();
+                    const formattedDate = today.toLocaleDateString('pt-BR');
+                    document.getElementById('receipt-date').textContent = formattedDate;
+
+                    // Exibir tela de sucesso
+                    document.getElementById('checkout-section').classList.add('hidden');
+                    document.getElementById('processing-section').classList.add('hidden');
+                    document.getElementById('processing-section').classList.remove('flex');
+                    document.getElementById('success-section').classList.remove('hidden');
+                    document.getElementById('success-section').classList.add('flex');
+                } else {
+                    alert('Erro ao processar transação no servidor. Tente novamente.');
+                    window.location.reload();
+                }
+            } catch (error) {
+                alert('Erro de conexão ao processar transação.');
+                window.location.reload();
+            }
+        }
+
+        // Inicializar PIX no load
+        startPixTimer();
+        startPixSimulation();
+    </script>
+</body>
+</html>

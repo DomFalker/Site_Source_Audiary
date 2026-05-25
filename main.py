@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Cookie, Depends
+from fastapi import FastAPI, Request, Cookie, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from rotas.produto import product_router
 from rotas.user import user_router
 from modseesquemas.auth import decode_token
-from modseesquemas.model import User
+from modseesquemas.model import User, Product
 import os
 
 app = FastAPI(title="Site Audiário API")
@@ -74,7 +74,41 @@ async def read_produtos(request: Request, access_token: str | None = Cookie(None
         response = RedirectResponse(url="/login", status_code=303)
         response.delete_cookie("access_token")
         return response
-    return templates.TemplateResponse(request, "produtos.html", {"user": user})
+    produtos = db.query(Product).all()
+    return templates.TemplateResponse(request, "produtos.html", {"user": user, "produtos": produtos})
+
+@app.get("/produtos/novo", response_class=HTMLResponse)
+async def read_novo_produto(request: Request, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
+    user = obter_usuario_logado(access_token, db)
+    if not user:
+        return RedirectResponse(url="/login", status_code=303)
+    return templates.TemplateResponse(request, "novo-produto.html", {"user": user})
+
+@app.get("/senha-esquecida/sucesso", response_class=HTMLResponse)
+async def read_senha_sucesso(request: Request, email: str = ""):
+    return templates.TemplateResponse(request, "senha-esquecida-sucesso.html", {"email": email})
+
+@app.get("/checkout/{product_id}", response_class=HTMLResponse)
+async def read_checkout(product_id: int, request: Request, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
+    user = obter_usuario_logado(access_token, db)
+    if not user:
+        return RedirectResponse(url="/login", status_code=303)
+    produto = db.query(Product).filter(Product.id == product_id).first()
+    if not produto:
+        return RedirectResponse(url="/produtos", status_code=303)
+    return templates.TemplateResponse(request, "checkout.html", {"user": user, "produto": produto})
+
+@app.post("/checkout/{product_id}/pagar")
+async def processar_pagamento(product_id: int, access_token: str | None = Cookie(None), db: Session = Depends(get_db)):
+    user = obter_usuario_logado(access_token, db)
+    if not user:
+        raise HTTPException(status_code=401, detail="Não autenticado")
+    produto = db.query(Product).filter(Product.id == product_id).first()
+    if not produto:
+        raise HTTPException(status_code=404, detail="Produto não encontrado")
+    db.delete(produto)
+    db.commit()
+    return {"success": True, "msg": "Pagamento processado com sucesso!"}
 
 @app.get("/senha-esquecida", response_class=HTMLResponse)
 async def read_senha(request: Request):

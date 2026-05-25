@@ -22,6 +22,7 @@
         <nav class="flex gap-6 items-center text-sm font-medium">
             <a href="/" class="text-gray-600 hover:text-cyan-500 font-medium">Home</a>
             {% if user %}
+                <a href="/produtos/novo" class="bg-cyan-500 text-white px-4 py-2 rounded-full hover:bg-cyan-600 transition font-bold">Anunciar</a>
                 <span class="text-gray-600">Olá, <strong class="text-cyan-600 font-semibold">{{ user.name }}</strong>!</span>
                 <a href="/logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-full hover:bg-red-100 transition">Sair</a>
             {% else %}
@@ -31,13 +32,38 @@
     </header>
 
     <main id="main-content" class="flex-grow p-8 max-w-6xl mx-auto w-full">
-        <h2 class="text-3xl font-bold mb-8">Todos os Produtos</h2>
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold">Todos os Produtos</h2>
+            {% if user %}
+                <a href="/produtos/novo" class="md:hidden bg-cyan-500 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 transition font-bold text-sm">Anunciar</a>
+            {% endif %}
+        </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Mockup de produtos -->
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 italic text-gray-400">
-                Nenhum produto cadastrado no momento. Seja o primeiro a anunciar!
-            </div>
+            {% if produtos %}
+                {% for produto in produtos %}
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-bold text-gray-800">{{ produto.name }}</h3>
+                                <span class="bg-cyan-50 text-cyan-600 text-xs px-2.5 py-1 rounded-full font-semibold">{{ produto.condition }}</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">Marca: {{ produto.brand }}</p>
+                            <p class="text-xs text-gray-500">Anunciado por: <span class="font-semibold text-gray-700">{{ produto.seller.name if produto.seller else 'Anônimo' }}</span></p>
+                        </div>
+                        <div class="flex justify-between items-center mt-6">
+                            <span class="text-2xl font-black text-cyan-600">R$ {{ "%.2f"|format(produto.price) }}</span>
+                            <a href="/checkout/{{ produto.id }}" class="bg-black text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-gray-800 transition focus:ring-2 focus:ring-black focus:outline-none">
+                                Comprar
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-span-full bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center italic text-gray-400">
+                    Nenhum produto cadastrado no momento. Seja o primeiro a anunciar!
+                </div>
+            {% endif %}
         </div>
     </main>
 

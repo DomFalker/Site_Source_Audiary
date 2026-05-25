@@ -18,7 +18,7 @@
             <p class="text-sm text-gray-600 mb-6">
                 Insira Aqui o email que você lembra estar cadastrado e então enviaremos uma mensagem para ti!
             </p>
-            <form action="/users/recover-password" method="POST" class="space-y-4">
+            <form class="space-y-4">
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Seu Email:</label>
                     <input type="email" id="email" name="email" required placeholder="JoãoAltinho@vasco.com"
@@ -39,5 +39,35 @@
             <p class="text-gray-400 text-sm">Copyrights: 2026 Audiary - Todos os direitos reservados.</p>
         </footer>
         <script src="/public/accessibility.js"></script>
+        <script>
+            const form = document.querySelector('form');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Enviando...';
+                
+                const formData = new FormData(form);
+                const email = formData.get('email');
+                
+                try {
+                    const response = await fetch('/users/recover-password', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (response.ok) {
+                        window.location.href = `/senha-esquecida/sucesso?email=${encodeURIComponent(email)}`;
+                    } else {
+                        alert('Erro ao enviar email de recuperação.');
+                    }
+                } catch (error) {
+                    alert('Erro de conexão com o servidor.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Enviar Link de recuperação!';
+                }
+            });
+        </script>
     </body>
 </html>
