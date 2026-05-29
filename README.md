@@ -23,7 +23,6 @@ Nos envie um e-mail:
 ## Tecnologias usadas
 
 - Api's de localização automática
-- Api's de acessibilidade (Vlibras)
 - Api de acesso a postagens em outros sites #<--- isso pode ser alterado mais para frente
 
 ----------------------------------------------------------------------------------------------------
